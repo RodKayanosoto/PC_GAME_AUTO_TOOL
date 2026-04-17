@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36429.23 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PC_GAME_AUTO_TOOL", "PC_GAME_AUTO_TOOL\PC_GAME_AUTO_TOOL.csproj", "{AE0E1979-5F0D-441A-AB09-EC7A3B44879E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{7D4CFBC2-BF4B-4D9A-8F58-80866260F0FD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AE0E1979-5F0D-441A-AB09-EC7A3B44879E} = {AE0E1979-5F0D-441A-AB09-EC7A3B44879E}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE0E1979-5F0D-441A-AB09-EC7A3B44879E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE0E1979-5F0D-441A-AB09-EC7A3B44879E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE0E1979-5F0D-441A-AB09-EC7A3B44879E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE0E1979-5F0D-441A-AB09-EC7A3B44879E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D4CFBC2-BF4B-4D9A-8F58-80866260F0FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D4CFBC2-BF4B-4D9A-8F58-80866260F0FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D4CFBC2-BF4B-4D9A-8F58-80866260F0FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D4CFBC2-BF4B-4D9A-8F58-80866260F0FD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D1A0230F-3DB0-45A7-B988-F6C1D3008B3C}
+	EndGlobalSection
+EndGlobal
