@@ -50,5 +50,21 @@ namespace Test.Resources
         {
             return Path.Combine(ExeDir(), fileName);
         }
+
+        /**
+         * テストで使用するFileディレクトリのパス
+         */
+        public static string FileDir()
+        {
+            return Path.Combine(ResourcesDir(), "File");
+        }
+
+        /**
+         * テストで使用するexeファイルのパス
+         */
+        public static string FilePath(string fileName)
+        {
+            return Path.Combine(FileDir(), fileName);
+        }
     }
 }
