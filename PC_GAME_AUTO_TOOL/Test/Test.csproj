@@ -9,6 +9,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Resources\tessdata\**" />
+    <EmbeddedResource Remove="Resources\tessdata\**" />
+    <None Remove="Resources\tessdata\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Functions\PictureReaderTest.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\picture\testPicture1.png" />
+    <None Remove="Resources\picture\testPicture2.png" />
+    <None Remove="Resources\picture\testPicture3.png" />
+    <None Remove="Resources\picture\testPicture4.png" />
+    <None Remove="Resources\picture\testPicture5.png" />
+    <None Remove="Resources\picture\testPicture6.png" />
+    <None Remove="Resources\picture\testPicture6_bk.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Include="MSTest" Version="3.6.4" />
   </ItemGroup>
@@ -19,6 +39,19 @@
 
   <ItemGroup>
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\picture\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\Exe\testFile.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Exe\WinMergeU.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
