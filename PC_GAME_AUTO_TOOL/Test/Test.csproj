@@ -52,6 +52,9 @@
     <None Update="Resources\Exe\WinMergeU.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\File\CopyFileTest.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\File\PressKeyTest.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
