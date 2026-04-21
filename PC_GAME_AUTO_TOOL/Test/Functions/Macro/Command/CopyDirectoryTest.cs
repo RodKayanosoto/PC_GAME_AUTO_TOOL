@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Test.Resources;
 using PC_GAME_AUTO_TOOL.Functions.Macro.Command;
 using PC_GAME_AUTO_TOOL.Functions.Macro.Command.InterFace;
+using System.IO;
 
 namespace Test.Functions.Macro.Command
 {
@@ -20,9 +21,9 @@ namespace Test.Functions.Macro.Command
         public void TestCopyDirectory()
         {
             // コピー元のディレクトリパス
-            string sorceDirectoryPath = TestResourcePaths.FileDir();
+            string sorceDirectoryPath = Path.Combine(TestResourcePaths.FileDir(), "CopyDirectoryTest");
             // コピー先のディレクトリ名
-            string destinationDirectoryPath = Path.Combine(TestResourcePaths.ResourcesDir(), "TestCopyDir");
+            string destinationDirectoryPath = Path.Combine(TestResourcePaths.FileDir(), "CopyDirectoryTest2");
 
             // コピー元のディレクトリが存在することを確認する
             Assert.IsTrue(System.IO.Directory.Exists(sorceDirectoryPath), $"エラー: コピー元のディレクトリ '{sorceDirectoryPath}' が存在しません。");
@@ -49,19 +50,7 @@ namespace Test.Functions.Macro.Command
             Assert.IsTrue(System.IO.Directory.Exists(destinationDirectoryPath), $"エラー: コピー先のディレクトリ '{destinationDirectoryPath}' が存在しません。");
 
             // コピー先のディレクトリ内のファイルがコピー元のディレクトリ内のファイルと同じであることを確認する
-            {
-                string[] sourceFiles = System.IO.Directory.GetFiles(sorceDirectoryPath);
-                string[] destinationFiles = System.IO.Directory.GetFiles(destinationDirectoryPath);
-                // コピー先のディレクトリ内のファイル数がコピー元のディレクトリ内のファイル数と同じであることを確認する
-                Assert.IsTrue(sourceFiles.Length == destinationFiles.Length, "エラー: コピー先のディレクトリ内のファイル数がコピー元のディレクトリ内のファイル数と異なります。");
-                // コピー先のディレクトリ内のファイルの内容がコピー元のディレクトリ内のファイルの内容と同じであることを確認する
-                for (int i = 0; i < sourceFiles.Length; i++)
-                {
-                    byte[] sourceContent = System.IO.File.ReadAllBytes(sourceFiles[i]);
-                    byte[] destinationContent = System.IO.File.ReadAllBytes(destinationFiles[i]);
-                    Assert.IsTrue(sourceContent.SequenceEqual(destinationContent), $"エラー: コピー先のファイル '{destinationFiles[i]}' の内容がコピー元のファイル '{sourceFiles[i]}' の内容と異なります。");
-                }
-            }
+            Assert.IsTrue(isSameDirectory(sorceDirectoryPath, destinationDirectoryPath), $"エラー: コピー先のディレクトリ '{destinationDirectoryPath}' がコピー元と一致しません。");
 
             // コピー先ディレクトリの中の全ファイルを削除する
             foreach (string filePath in System.IO.Directory.GetFiles(destinationDirectoryPath))
@@ -91,23 +80,81 @@ namespace Test.Functions.Macro.Command
             Assert.IsTrue(System.IO.Directory.Exists(destinationDirectoryPath), $"エラー: コピー先のディレクトリ '{destinationDirectoryPath}' が存在しません。");
 
             // コピー先のディレクトリ内のファイルがコピー元のディレクトリ内のファイルと同じであることを確認する
-            {
-                string[] sourceFiles = System.IO.Directory.GetFiles(sorceDirectoryPath);
-                string[] destinationFiles = System.IO.Directory.GetFiles(destinationDirectoryPath);
-                // コピー先のディレクトリ内のファイル数がコピー元のディレクトリ内のファイル数と同じであることを確認する
-                Assert.IsTrue(sourceFiles.Length == destinationFiles.Length, "エラー: コピー先のディレクトリ内のファイル数がコピー元のディレクトリ内のファイル数と異なります。");
-                // コピー先のディレクトリ内のファイルの内容がコピー元のディレクトリ内のファイルの内容と同じであることを確認する
-                for (int i = 0; i < sourceFiles.Length; i++)
-                {
-                    byte[] sourceContent = System.IO.File.ReadAllBytes(sourceFiles[i]);
-                    byte[] destinationContent = System.IO.File.ReadAllBytes(destinationFiles[i]);
-                    Assert.IsTrue(sourceContent.SequenceEqual(destinationContent), $"エラー: コピー先のファイル '{destinationFiles[i]}' の内容がコピー元のファイル '{sourceFiles[i]}' の内容と異なります。");
-                }
-            }
+            Assert.IsTrue(isSameDirectory(sorceDirectoryPath, destinationDirectoryPath), $"エラー: コピー先のディレクトリ '{destinationDirectoryPath}' がコピー元と一致しません。");
 
             // コピー先のディレクトリを削除する
             System.IO.Directory.Delete(destinationDirectoryPath, true);
         }
+
+        /**
+         * コピー先のディレクトリ内がコピー元と完全一致していることを確認するためのヘルパーメソッドです。
+         * 異なる場合は `false` を返す。すべて一致する場合にのみ `true` を返す。
+         */
+        private bool isSameDirectory(string dir1, string dir2)
+        {
+            // サブディレクトリを含めて全ファイル取得
+            string[] sourceFiles = Directory.GetFiles(
+                dir1,
+                "*",
+                SearchOption.AllDirectories);
+
+            string[] destinationFiles = Directory.GetFiles(
+                dir2,
+                "*",
+                SearchOption.AllDirectories);
+
+            // 相対パスへ変換
+            var sourceRelativeFiles = sourceFiles
+                .Select(x => Path.GetRelativePath(dir1, x))
+                .OrderBy(x => x)
+                .ToArray();
+
+            var destinationRelativeFiles = destinationFiles
+                .Select(x => Path.GetRelativePath(dir2, x))
+                .OrderBy(x => x)
+                .ToArray();
+
+            // ファイル数確認
+            if (sourceRelativeFiles.Length != destinationRelativeFiles.Length)
+            {
+                return false;
+            }
+
+            // ファイル構成確認（順序は既にソート済み）
+            for (int i = 0; i < sourceRelativeFiles.Length; i++)
+            {
+                if (!string.Equals(sourceRelativeFiles[i], destinationRelativeFiles[i], StringComparison.Ordinal))
+                {
+                    return false;
+                }
+            }
+
+            // 内容確認
+            foreach (var relativePath in sourceRelativeFiles)
+            {
+                string sourceFile = Path.Combine(dir1, relativePath);
+                string destinationFile = Path.Combine(dir2, relativePath);
+
+                // ファイルが存在しない場合は不一致
+                if (!File.Exists(sourceFile) || !File.Exists(destinationFile))
+                {
+                    return false;
+                }
+
+                byte[] sourceContent = File.ReadAllBytes(sourceFile);
+                byte[] destinationContent = File.ReadAllBytes(destinationFile);
+
+                if (!sourceContent.SequenceEqual(destinationContent))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+
+
         /**
          * 異常系：引数が存在しない場合にArgumentExceptionがスローされることを確認するためのテストです。
          */
@@ -128,7 +175,7 @@ namespace Test.Functions.Macro.Command
         public void errTestCopyDirectory1Args()
         {
             // コピー元のディレクトリパス
-            string sorceDirectoryPath = TestResourcePaths.FileDir();
+            string sorceDirectoryPath = Path.Combine(TestResourcePaths.FileDir(), "CopyDirectoryTest");
 
             // 引数が存在しない場合にArgumentExceptionがスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
@@ -144,11 +191,11 @@ namespace Test.Functions.Macro.Command
         public void errTestCopyDirectory3Args()
         {
             // コピー元のディレクトリパス
-            string sorceDirectoryPath = TestResourcePaths.FileDir();
+            string sorceDirectoryPath = Path.Combine(TestResourcePaths.FileDir(), "CopyDirectoryTest");
             // コピー先のディレクトリ名
-            string destinationDirectoryPath = Path.Combine(TestResourcePaths.ResourcesDir(), "TestCopyDir");
+            string destinationDirectoryPath = Path.Combine(TestResourcePaths.FileDir(), "CopyDirectoryTest2");
             // コピー先のディレクトリ名2
-            string destinationDirectoryPath2 = Path.Combine(TestResourcePaths.ResourcesDir(), "TestCopyDir2");
+            string destinationDirectoryPath2 = Path.Combine(TestResourcePaths.FileDir(), "CopyDirectoryTest3");
 
             // 引数が存在しない場合にArgumentExceptionがスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
@@ -164,7 +211,7 @@ namespace Test.Functions.Macro.Command
         public void errTestCopyDirectorySameArgs()
         {
             // コピー元のディレクトリパス
-            string sorceDirectoryPath = TestResourcePaths.FileDir();
+            string sorceDirectoryPath = Path.Combine(TestResourcePaths.FileDir(), "CopyDirectoryTest");
 
             // 引数が存在しない場合にArgumentExceptionがスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
@@ -180,9 +227,9 @@ namespace Test.Functions.Macro.Command
         public void errTestCopyDirectoryResourceDirNotExists()
         {
             // コピー元のディレクトリパス
-            string sorceDirectoryPath = Path.Combine(TestResourcePaths.BaseDir(), "NotExistsDir"); ;
+            string sorceDirectoryPath = Path.Combine(TestResourcePaths.FileDir(), "NotExistsDir"); ;
             // コピー先のディレクトリ名
-            string destinationDirectoryPath = Path.Combine(TestResourcePaths.ResourcesDir(), "TestCopyDir");
+            string destinationDirectoryPath = Path.Combine(TestResourcePaths.ResourcesDir(), "CopyDirectoryTest2");
 
             // 引数が存在しない場合にArgumentExceptionがスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
@@ -198,9 +245,9 @@ namespace Test.Functions.Macro.Command
         public void errTestCopyDirectorydestinationDirectoryParentDirNotExists()
         {
             // コピー元のディレクトリパス
-            string sorceDirectoryPath = TestResourcePaths.FileDir();
+            string sorceDirectoryPath = Path.Combine(TestResourcePaths.FileDir(), "CopyDirectoryTest");
             // コピー先のディレクトリ名
-            string destinationDirectoryPath = Path.Combine(TestResourcePaths.BaseDir(), "NotExistsParentDir", "NotExistsChildDir");
+            string destinationDirectoryPath = Path.Combine(TestResourcePaths.FileDir(), "NotExistsParentDir", "NotExistsChildDir");
 
             // 引数が存在しない場合にArgumentExceptionがスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>

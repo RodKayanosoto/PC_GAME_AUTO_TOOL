@@ -61,5 +61,13 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.Command
 
             Process process = processes[0];
         }
+
+        /**
+         * このコマンドは実行結果が存在しないタイプのコマンドであるため、nullを返します。
+         */
+        public String? GetResult()
+        {
+            return null;
+        }
     }
 }

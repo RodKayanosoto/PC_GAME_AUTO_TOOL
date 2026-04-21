@@ -46,5 +46,13 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.Command
             // 指定された時間だけ待機する
             System.Threading.Thread.Sleep(waitTime);
         }
+
+        /**
+         * このコマンドは実行結果が存在しないタイプのコマンドであるため、nullを返します。
+         */
+        public String? GetResult()
+        {
+            return null;
+        }
     }
 }

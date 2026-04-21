@@ -39,10 +39,20 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.Command
             this.destinationPath = args[1];
         }
 
-        // 指定されたファイルをコピーする
+        /**
+         * 指定されたファイルをコピーする
+         */
         public void Execute()
         {
             System.IO.File.Copy(this.sourcePath, this.destinationPath, true);
+        }
+
+        /**
+         * このコマンドは実行結果が存在しないタイプのコマンドであるため、nullを返します。
+         */
+        public String? GetResult()
+        {
+            return null;
         }
     }
 }

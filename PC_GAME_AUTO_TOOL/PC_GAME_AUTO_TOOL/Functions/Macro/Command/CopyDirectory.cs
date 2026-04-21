@@ -80,19 +80,60 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.Command
          */
         public void Execute()
         {
-            // コピー先のディレクトリが存在しない場合は、コピー先のディレクトリを作成する
-            if (!System.IO.Directory.Exists(this.destinationDirectoryPath))
+            // コピー元存在確認
+            if (!Directory.Exists(this.sorceDirectoryPath))
             {
-                System.IO.Directory.CreateDirectory(this.destinationDirectoryPath);
+                throw new DirectoryNotFoundException(
+                    $"コピー元ディレクトリが存在しません: {this.sorceDirectoryPath}");
             }
 
-            // コピー元のディレクトリ内のすべてのファイルをコピー先のディレクトリにコピーする
-            foreach (string filePath in System.IO.Directory.GetFiles(this.sorceDirectoryPath))
+            // コピー先ディレクトリ作成
+            Directory.CreateDirectory(this.destinationDirectoryPath);
+
+            // サブディレクトリ（空フォルダ含む）を作成
+            foreach (string sourceDir in Directory.GetDirectories(
+                this.sorceDirectoryPath,
+                "*",
+                SearchOption.AllDirectories))
             {
-                string fileName = System.IO.Path.GetFileName(filePath);
-                string destinationFilePath = System.IO.Path.Combine(this.destinationDirectoryPath, fileName);
-                System.IO.File.Copy(filePath, destinationFilePath, true);
+                string relativePath =
+                    Path.GetRelativePath(this.sorceDirectoryPath, sourceDir);
+
+                string destinationDir =
+                    Path.Combine(this.destinationDirectoryPath, relativePath);
+
+                Directory.CreateDirectory(destinationDir);
             }
+
+            // 全ファイルコピー
+            foreach (string sourceFile in Directory.GetFiles(
+                this.sorceDirectoryPath,
+                "*",
+                SearchOption.AllDirectories))
+            {
+                string relativePath =
+                    Path.GetRelativePath(this.sorceDirectoryPath, sourceFile);
+
+                string destinationFile =
+                    Path.Combine(this.destinationDirectoryPath, relativePath);
+
+                string? destinationDir =
+                    Path.GetDirectoryName(destinationFile);
+
+                if (!string.IsNullOrEmpty(destinationDir))
+                {
+                    Directory.CreateDirectory(destinationDir);
+                }
+
+                File.Copy(sourceFile, destinationFile, true);
+            }
+        }
+
+        /**
+         * このコマンドは実行結果が存在しないタイプのコマンドであるため、nullを返します。
+         */
+        public String? GetResult() {
+            return null;
         }
     }
 }

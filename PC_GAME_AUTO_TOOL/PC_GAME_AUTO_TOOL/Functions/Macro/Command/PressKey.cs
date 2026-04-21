@@ -72,6 +72,17 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.Command
             System.Windows.Forms.SendKeys.SendWait(sendKeysStringBuilder.ToString());
         }
 
+        /**
+         * このコマンドは実行結果が存在しないタイプのコマンドであるため、nullを返します。
+         */
+        public String? GetResult()
+        {
+            return null;
+        }
+
+        /**
+         * KeyEnumをSendKeys.SendWaitで使用するための文字列に変換する
+         */
         private static string ToSendKeys(KeyBordEnum.KeyEnum key)
         {
             return key switch

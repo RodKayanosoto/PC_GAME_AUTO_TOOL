@@ -1,0 +1,2 @@
+﻿TestFile3
+This is a test file for CopyDirectoryTest.
