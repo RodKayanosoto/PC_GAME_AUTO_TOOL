@@ -1,3 +1,4 @@
+using PC_GAME_AUTO_TOOL.Functions.Macro.MacroForGames.Elona;
 using System.Text;
 
 namespace PC_GAME_AUTO_TOOL
@@ -11,10 +12,11 @@ namespace PC_GAME_AUTO_TOOL
         static void Main()
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
-            Application.Run(new MainForm());
+            //// To customize application configuration such as set high DPI settings or default font,
+            //// see https://aka.ms/applicationconfiguration.
+            //ApplicationConfiguration.Initialize();
+            //Application.Run(new MainForm());
+            BlackCatReload.DoMacro();
         }
     }
 }

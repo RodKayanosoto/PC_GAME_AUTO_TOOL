@@ -1,9 +1,9 @@
-﻿using PC_GAME_AUTO_TOOL.Functions.Macro.Command.InterFace;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using PC_GAME_AUTO_TOOL.Functions.Macro.Command.InterFace;
 
 namespace PC_GAME_AUTO_TOOL.Functions.Macro.Command
 {
