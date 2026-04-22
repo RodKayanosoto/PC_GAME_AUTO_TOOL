@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace PC_GAME_AUTO_TOOL
 {
     internal static class Program
@@ -8,6 +10,7 @@ namespace PC_GAME_AUTO_TOOL
         [STAThread]
         static void Main()
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();

@@ -28,18 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
+            btnExecute = new Button();
             SuspendLayout();
+            // 
+            // btnExecute
+            // 
+            btnExecute.Location = new Point(645, 348);
+            btnExecute.Name = "btnExecute";
+            btnExecute.Size = new Size(93, 42);
+            btnExecute.TabIndex = 0;
+            btnExecute.Text = "マクロ実行";
+            btnExecute.UseVisualStyleBackColor = true;
+            btnExecute.Click += btnExecute_Click;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnExecute);
             Name = "MainForm";
             Text = "PCゲーム自動化ツール";
             ResumeLayout(false);
         }
 
         #endregion
+
+        private Button btnExecute;
     }
 }
