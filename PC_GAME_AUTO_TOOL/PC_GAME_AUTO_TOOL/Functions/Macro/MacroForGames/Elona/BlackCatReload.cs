@@ -199,12 +199,12 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.MacroForGames.Elona
                 // エンチャント失敗している場合、次の処理へ
                 {
                     // 装備情報ファイルに「銅の瞳」と「それは幻惑への耐性を授ける」が記入されているか確認する
-                    Encoding sjis = Encoding.GetEncoding("shift_jis");
-                    string fileContent = File.ReadAllText(currentEquipFilePath, sjis);
+                    MacroCommandInterface command = new IsFileTextContains("SJIS", currentEquipFilePath, "エヘカトルの祝福");
+                    command.Execute();
 
                     //if (!fileContent.Contains("エヘカトルの祝福") ||
                     //    !fileContent.Contains("それは幻惑への耐性を授ける"))
-                    if (!fileContent.Contains("エヘカトルの祝福"))
+                    if (!"1".Equals(command.GetResult()))
                     {
                         // エンチャント失敗している場合は、Elonaのプロセスを終了する
                         {
