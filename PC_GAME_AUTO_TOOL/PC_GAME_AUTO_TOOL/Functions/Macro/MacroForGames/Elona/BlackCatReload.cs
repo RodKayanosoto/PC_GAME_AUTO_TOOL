@@ -1,12 +1,13 @@
-﻿using PC_GAME_AUTO_TOOL.Functions.Macro.Command;
-using PC_GAME_AUTO_TOOL.Functions.Macro.Command.Enums;
-using PC_GAME_AUTO_TOOL.Functions.Macro.Command.InterFace;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using PC_GAME_AUTO_TOOL.Functions.Macro.Command;
+using PC_GAME_AUTO_TOOL.Functions.Macro.Command.Enums;
+using PC_GAME_AUTO_TOOL.Functions.Macro.Command.InterFace;
+using PC_GAME_AUTO_TOOL.Functions.Macro.Logic;
 
 namespace PC_GAME_AUTO_TOOL.Functions.Macro.MacroForGames.Elona
 {
@@ -53,11 +54,10 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.MacroForGames.Elona
                 // Elonaのプロセスを終了する
                 {
                     // Elonaのプロセスが存在するか確認する
-                    MacroCommandInterface isExistsProcess = new Command.IsExistsProcess(elonaExePath);
-                    isExistsProcess.Execute();
+                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic isExistsProcess = new IsExistsProcess(elonaExePath);
 
                     // Elonaのプロセスが存在する場合は、Elonaのプロセスを終了する
-                    if ("1".Equals(isExistsProcess.GetResult()))
+                    if (isExistsProcess.execute())
                     {
                          new Command.Terminate(elonaExePath).Execute();
                     }
@@ -66,11 +66,10 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.MacroForGames.Elona
                 // サクラエディタのプロセスを終了する
                 {
                     // サクラエディタのプロセスが存在するか確認する
-                    MacroCommandInterface isExistsProcess = new Command.IsExistsProcess(sakuraEditorExePath);
-                    isExistsProcess.Execute();
+                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic isExistsProcess = new IsExistsProcess(sakuraEditorExePath);
 
                     // サクラエディタのプロセスが存在する場合は、サクラエディタのプロセスを終了する
-                    if ("1".Equals(isExistsProcess.GetResult()))
+                    if (isExistsProcess.execute())
                     {
                         new Command.Terminate(sakuraEditorExePath).Execute();
                     }
@@ -182,11 +181,10 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.MacroForGames.Elona
                     // 装備情報ファイルを閉じる(サクラエディタで開かれる)
                     {
                         // サクラエディタのプロセスが存在するか確認する
-                        MacroCommandInterface isExistsProcess = new Command.IsExistsProcess(sakuraEditorExePath);
-                        isExistsProcess.Execute();
+                        PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic isExistsProcess = new IsExistsProcess(sakuraEditorExePath);
 
                         // サクラエディタのプロセスが存在する場合は、サクラエディタのプロセスを終了する
-                        if ("1".Equals(isExistsProcess.GetResult()))
+                        if (isExistsProcess.execute())
                         {
                             new Command.Terminate(sakuraEditorExePath).Execute();
                         }
@@ -199,21 +197,19 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.MacroForGames.Elona
                 // エンチャント失敗している場合、次の処理へ
                 {
                     // 装備情報ファイルに「銅の瞳」と「それは幻惑への耐性を授ける」が記入されているか確認する
-                    MacroCommandInterface command = new IsFileTextContains("SJIS", currentEquipFilePath, "エヘカトルの祝福");
-                    command.Execute();
+                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains("SJIS", currentEquipFilePath, "エヘカトルの祝福");
 
                     //if (!fileContent.Contains("エヘカトルの祝福") ||
                     //    !fileContent.Contains("それは幻惑への耐性を授ける"))
-                    if (!"1".Equals(command.GetResult()))
+                    if (!command.execute())
                     {
                         // エンチャント失敗している場合は、Elonaのプロセスを終了する
                         {
                             // Elonaのプロセスが存在するか確認する
-                            MacroCommandInterface isExistsProcess = new Command.IsExistsProcess(elonaExePath);
-                            isExistsProcess.Execute();
+                            PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic isExistsProcess = new IsExistsProcess(elonaExePath);
 
                             // Elonaのプロセスが存在する場合は、Elonaのプロセスを終了する
-                            if ("1".Equals(isExistsProcess.GetResult()))
+                            if (isExistsProcess.execute())
                             {
                                 new Command.Terminate(elonaExePath).Execute();
                             }
@@ -242,9 +238,8 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.MacroForGames.Elona
                         // 1秒待機する
                         new Command.Wait("1000").Execute();
                         // Elonaのプロセスが存在しない場合は、セーブ成功とみなす
-                        MacroCommandInterface isExistsProcess = new Command.IsExistsProcess(elonaExePath);
-                        isExistsProcess.Execute();
-                        if ("0".Equals(isExistsProcess.GetResult()))
+                        PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic isExistsProcess = new IsExistsProcess(elonaExePath);
+                        if (!isExistsProcess.execute())
                         {
                             break;
                         }
@@ -254,11 +249,10 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.MacroForGames.Elona
                 // Elonaのプロセスが存在する場合は終了する
                 {
                     // Elonaのプロセスが存在するか確認する
-                    MacroCommandInterface isExistsProcess = new Command.IsExistsProcess(elonaExePath);
-                    isExistsProcess.Execute();
+                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic isExistsProcess = new IsExistsProcess(elonaExePath);
 
                     // Elonaのプロセスが存在する場合は、Elonaのプロセスを終了する
-                    if ("1".Equals(isExistsProcess.GetResult()))
+                    if (isExistsProcess.execute())
                     {
                         // Elonaのプロセスを終了する
                         new Command.Terminate(elonaExePath).Execute();

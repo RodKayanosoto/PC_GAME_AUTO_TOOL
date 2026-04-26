@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PC_GAME_AUTO_TOOL.Functions.Macro.Command.InterFace;
 
-namespace PC_GAME_AUTO_TOOL.Functions.Macro.Command
+namespace PC_GAME_AUTO_TOOL.Functions.Macro.Logic
 {
     /**
      * IsFileTextContailsクラスは、ファイルのテキストが指定された文字列を含むかどうかを確認するためのコマンドクラスです。
      * このクラスは、MacroCommandInterfaceを実装しており、Executeメソッドを呼び出すことで、指定されたファイルのテキストが指定された文字列を含むかどうかを確認します。
      */
-    public class IsFileTextContains : MacroCommandInterface
+    public class IsFileTextContains : InterFace.Logic
     {
         // 文字コード
         private Encoding encoding;
@@ -19,8 +18,6 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.Command
         private string filePath;
         // 検査対象の文字列
         private string targetString;
-        // ファイルのテキストが指定された文字列を含むかどうかの結果
-        private bool result;
 
         /**
          * IsFileTextContailsクラスのコンストラクタ
@@ -53,7 +50,7 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.Command
 
             // ファイルパスにファイルが存在することを確認する
             string filePath = args[1];
-            if (!System.IO.File.Exists(filePath))
+            if (!File.Exists(filePath))
             {
                 throw new ArgumentException($"ファイル '{filePath}' が存在しません。");
             }
@@ -77,33 +74,16 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.Command
          * Executeメソッドは、指定されたファイルのテキストが指定された文字列を含むかどうかを確認します。
          * 結果は、GetResultメソッドで取得できます。
          */
-        public void Execute()
+        public bool execute()
         {
             // ファイルのテキストを読み取る
-            string fileText = System.IO.File.ReadAllText(filePath, this.encoding);
+            string fileText = File.ReadAllText(filePath, encoding);
 
             // ファイルのテキストが指定された文字列を含むかどうかを確認する
             if (fileText.Contains(targetString)) {
-                this.result = true;
+                return true;
             } else {
-                this.result = false;
-            }
-        }
-
-        /**
-         * GetResultメソッドは、Executeメソッドの実行結果を取得します。
-         * "1":文字列が含まれている
-         * "0":文字列が含まれていない
-         */
-        public String? GetResult()
-        {
-            if (this.result)
-            {
-                return "1";
-            }
-            else
-            {
-                return "0";
+                return false;
             }
         }
     }

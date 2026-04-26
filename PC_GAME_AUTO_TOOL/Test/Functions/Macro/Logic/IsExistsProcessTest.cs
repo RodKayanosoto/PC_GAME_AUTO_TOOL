@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 using Test.Resources;
 using PC_GAME_AUTO_TOOL.Functions.Macro.Command;
 using PC_GAME_AUTO_TOOL.Functions.Macro.Command.InterFace;
+using PC_GAME_AUTO_TOOL.Functions.Macro.Logic;
 
-namespace Test.Functions.Macro.Command
+namespace Test.Functions.Macro.Logic
 {
     /**
      * IsExistsProcessクラスのテストクラス
@@ -42,20 +43,24 @@ namespace Test.Functions.Macro.Command
                 }
             }
 
+            // 存在しないプロセス名を指定して、IsExistsProcessを実行する
+            {
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsExistsProcess(filePath);
+                // コマンドを実行する
+                Assert.IsFalse(command.execute());
+            }
+
             // テスト用にWinMergeプロセスを起動する
             {
                 // ファイルを起動する
-                System.Diagnostics.Process.Start(filePath);
+                Process.Start(filePath);
             }
 
             // 存在するプロセス名を指定して、IsExistsProcessを実行する
             {
-                MacroCommandInterface command = new Terminate(filePath);
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsExistsProcess(filePath);
                 // コマンドを実行する
-                command.Execute();
-                // プロセスが終了したことを確認する
-                Process[] existingProcesses = Process.GetProcessesByName("WinMergeU");
-                Assert.AreEqual(0, existingProcesses.Length, "エラー: テスト用のWinMergeプロセスが終了していません。");
+                Assert.IsTrue(command.execute());
             }
 
             // テストに使用したプロセスを終了する
@@ -86,7 +91,7 @@ namespace Test.Functions.Macro.Command
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                MacroCommandInterface command = new IsExistsProcess();
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsExistsProcess();
             });
 
         }
@@ -100,7 +105,7 @@ namespace Test.Functions.Macro.Command
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                MacroCommandInterface command = new IsExistsProcess("arg1", "arg2");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsExistsProcess("arg1", "arg2");
             });
         }
         [TestMethod]
@@ -112,7 +117,7 @@ namespace Test.Functions.Macro.Command
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                MacroCommandInterface command = new IsExistsProcess("   ");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsExistsProcess("   ");
             });
         }
     }
