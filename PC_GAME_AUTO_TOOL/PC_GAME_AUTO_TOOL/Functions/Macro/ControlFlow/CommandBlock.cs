@@ -16,7 +16,7 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.ControlFlow
         Dictionary<string, string> stringVariableDictionary;
 
         // コマンドブロック内のコマンドのリスト
-        private List<ControlFlow.Schema.Line> commands;
+        private List<ControlFlow.Line.LineInterFace> commands;
         // コンストラクタ
         public CommandBlock()
         {

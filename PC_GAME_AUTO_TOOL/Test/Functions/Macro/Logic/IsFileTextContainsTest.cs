@@ -41,13 +41,13 @@ namespace Test.Functions.Macro.Logic
 
                 foreach (string testString in testStrings)
                 {
-                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains("SJIS", filePathSjis, testString);
+                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains(1, "SJIS", filePathSjis, testString);
                     // 該当の文字列がファイルのテキストに含まれていることを確認する
                     Assert.IsTrue(command.execute());
                 }
 
                 {
-                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains("SJIS", filePathSjis, "ac");
+                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains(1, "SJIS", filePathSjis, "ac");
                     // 該当の文字列がファイルのテキストに含まれていないことを確認する
                     Assert.IsFalse(command.execute());
                 }
@@ -64,13 +64,13 @@ namespace Test.Functions.Macro.Logic
 
                 foreach (string testString in testStrings)
                 {
-                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains("UTF-8", filePathUtf8, testString);
+                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains(1, "UTF-8", filePathUtf8, testString);
                     // 該当の文字列がファイルのテキストに含まれていることを確認する
                     Assert.IsTrue(command.execute());
                 }
 
                 {
-                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains("SJIS", filePathSjis, "ac");
+                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains(1, "SJIS", filePathSjis, "ac");
                     // 該当の文字列がファイルのテキストに含まれていないことを確認する
                     Assert.IsFalse(command.execute());
                 }
@@ -86,13 +86,13 @@ namespace Test.Functions.Macro.Logic
                 };
                 foreach (string testString in testStrings)
                 {
-                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains("UTF-8", filePathUtf8WithBom, testString);
+                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains(1, "UTF-8", filePathUtf8WithBom, testString);
                     // 該当の文字列がファイルのテキストに含まれていることを確認する
                     Assert.IsTrue(command.execute());
                 }
 
                 {
-                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains("SJIS", filePathSjis, "ac");
+                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains(1, "SJIS", filePathSjis, "ac");
                     // 該当の文字列がファイルのテキストに含まれていないことを確認する
                     Assert.IsFalse(command.execute());
                 }
@@ -108,7 +108,7 @@ namespace Test.Functions.Macro.Logic
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains();
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains(1);
             });
 
         }
@@ -122,7 +122,7 @@ namespace Test.Functions.Macro.Logic
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains("arg1", "arg2");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains(1, "arg1", "arg2");
             });
         }
 
@@ -134,7 +134,7 @@ namespace Test.Functions.Macro.Logic
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains("arg1", "arg2", "arg3", "arg4");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains(1, "arg1", "arg2", "arg3", "arg4");
             });
         }
 
@@ -149,7 +149,7 @@ namespace Test.Functions.Macro.Logic
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains("UTF-9", filePathUtf8, "123");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains(1, "UTF-9", filePathUtf8, "123");
             });
         }
 
@@ -164,7 +164,7 @@ namespace Test.Functions.Macro.Logic
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains("UTF-8", filePathUtf8, "123");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains(1, "UTF-8", filePathUtf8, "123");
             });
         }
 
@@ -179,7 +179,7 @@ namespace Test.Functions.Macro.Logic
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains("UTF-8", filePathUtf8, " ");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains(1, "UTF-8", filePathUtf8, " ");
             });
         }
 

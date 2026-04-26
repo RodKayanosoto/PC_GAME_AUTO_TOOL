@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms.VisualStyles;
+using PC_GAME_AUTO_TOOL.Functions.Macro.Logic.Struct;
 
 namespace PC_GAME_AUTO_TOOL.Functions.Macro.Logic
 {
@@ -12,11 +13,11 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.Logic
      */
     public class Equal : InterFace.Logic
     {
-        private int arg1;
-        private int arg2;
+        private ArgMents argMents;
 
-        public Equal(params String[] args)
+        public Equal(int lineNum, params String[] args)
         {
+            this.argMents = new ArgMents();
             // 引数が2つでない場合、例外をスローする
             if (args.Length != 2)
             {
@@ -33,8 +34,13 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.Logic
             }
 
             // 引数を受け取る
-            this.arg1 = int.Parse(arg1);
-            this.arg2 = int.Parse(arg2);
+            this.argMents.addArg(new KeyValuePair<string, int>(lineNum.ToString() + "_arg1", int.Parse(arg1)));
+            this.argMents.addArg(new KeyValuePair<string, int>(lineNum.ToString() + "_arg2", int.Parse(arg2)));
+        }
+
+        public Equal(ArgMents arguments)
+        {
+            this.argMents = arguments;
         }
 
         /**
@@ -42,7 +48,24 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.Logic
          */
         public bool execute()
         {
-            return this.arg1 == this.arg2;
+            return this.argMents.numericVariableList[0].Value == this.argMents.numericVariableList[1].Value;
         }
+
+        /**
+         * 引数全体を再セットする処理
+         */
+        public void setArgs(ArgMents argMents) { this.argMents = argMents; }
+        /**
+         * 引数を取得する処理
+         */
+        public ArgMents getArgs() { return this.argMents; }
+        /**
+         * 引数を追加する処理(int型)
+         */
+        public void addArg(KeyValuePair<string, int> arg) { this.argMents.addArg(arg); }
+        /**
+         * 引数を追加する処理(string型)
+         */
+        public void addArg(KeyValuePair<string, string> arg) { this.argMents.addArg(arg); }
     }
 }

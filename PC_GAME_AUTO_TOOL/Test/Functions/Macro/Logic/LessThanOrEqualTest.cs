@@ -21,31 +21,31 @@ namespace Test.Functions.Macro.Logic
         {
             // trueとなることを確認する
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new LessThanOrEqual("-2", "-1");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new LessThanOrEqual(1, "-2", "-1");
                 Assert.IsTrue(command.execute());
             }
 
             // trueとなることを確認する
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new LessThanOrEqual("-1", "0");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new LessThanOrEqual(1, "-1", "0");
                 Assert.IsTrue(command.execute());
             }
 
             // trueとなることを確認する
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new LessThanOrEqual("0", "1");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new LessThanOrEqual(1, "0", "1");
                 Assert.IsTrue(command.execute());
             }
 
             // trueとなることを確認する
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new LessThanOrEqual("1", "1");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new LessThanOrEqual(1, "1", "1");
                 Assert.IsTrue(command.execute());
             }
 
             // falseとなることを確認する
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new LessThanOrEqual("2", "1");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new LessThanOrEqual(1, "2", "1");
                 Assert.IsFalse(command.execute());
             }
         }
@@ -59,7 +59,7 @@ namespace Test.Functions.Macro.Logic
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new LessThanOrEqual();
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new LessThanOrEqual(1);
             });
         }
 
@@ -72,7 +72,7 @@ namespace Test.Functions.Macro.Logic
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new LessThanOrEqual("1");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new LessThanOrEqual(1, "1");
             });
         }
 
@@ -85,7 +85,7 @@ namespace Test.Functions.Macro.Logic
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new LessThanOrEqual("1", "2", "3");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new LessThanOrEqual(1, "1", "2", "3");
             });
         }
 
@@ -98,13 +98,13 @@ namespace Test.Functions.Macro.Logic
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new LessThanOrEqual("a", "2");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new LessThanOrEqual(1, "a", "2");
             });
 
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new LessThanOrEqual("1", "b");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new LessThanOrEqual(1, "1", "b");
             });
         }
     }

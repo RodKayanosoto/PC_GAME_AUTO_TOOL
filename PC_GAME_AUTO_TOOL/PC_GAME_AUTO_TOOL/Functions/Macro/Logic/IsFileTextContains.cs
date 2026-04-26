@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PC_GAME_AUTO_TOOL.Functions.Macro.Logic.Struct;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,38 +13,25 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.Logic
      */
     public class IsFileTextContains : InterFace.Logic
     {
-        // 文字コード
-        private Encoding encoding;
-        // ファイルパス
-        private string filePath;
-        // 検査対象の文字列
-        private string targetString;
+        private ArgMents argMents;
 
         /**
          * IsFileTextContailsクラスのコンストラクタ
          * 引数には、ファイルパスと検索する文字列を指定します。
          * 引数の数が不正な場合は、ArgumentExceptionをスローします。
          */
-        public IsFileTextContains(params string[] args)
+        public IsFileTextContains(int lineNum, params string[] args)
         {
+            this.argMents = new ArgMents();
             // 引数の数をチェックする
             if (args.Length != 3)
             {
                 throw new ArgumentException(@"文字コード(""UTF-8"", ""SJIS""), ファイルパス, 検査対象の文字列の3つの引数を指定してください。");
             }
 
-            // 文字コードを取得する
+            // 文字コードをチェックする
             string charCode = args[0];
-            Encoding encoding;
-            if ("UTF-8".Equals(charCode))
-            {
-                encoding = Encoding.UTF8;
-            }
-            else if ("SJIS".Equals(charCode))
-            {
-                EncodingProvider provider = CodePagesEncodingProvider.Instance;
-                encoding = provider.GetEncoding("shift-jis");
-            } else
+            if (!"UTF-8".Equals(charCode) && !"SJIS".Equals(charCode))
             {
                 throw new ArgumentException(@"文字コードは ""UTF-8"" または ""SJIS"" のいずれかを指定してください。");
             }
@@ -63,11 +51,18 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.Logic
             }
 
             // 文字コードを取得する
-            this.encoding = encoding;
+            this.argMents.addArg(new KeyValuePair<string, string>(lineNum.ToString() + "_charCode", charCode));
+
             // ファイルパスを取得する
-            this.filePath = filePath;
+            this.argMents.addArg(new KeyValuePair<string, string>(lineNum.ToString() + "_filePath", filePath));
+
             // 検査対象の文字列を取得する
-            this.targetString = targetString;
+            this.argMents.addArg(new KeyValuePair<string, string>(lineNum.ToString() + "_targetString", targetString));
+        }
+
+        public IsFileTextContains(ArgMents arguments)
+        {
+            this.argMents = arguments;
         }
 
         /**
@@ -76,6 +71,26 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.Logic
          */
         public bool execute()
         {
+            string charCode = this.argMents.stringVariableList[0].Value;
+            string filePath = this.argMents.stringVariableList[1].Value;
+            string targetString = this.argMents.stringVariableList[2].Value;
+
+            // 文字コードを取得する
+            Encoding encoding;
+            if ("UTF-8".Equals(charCode))
+            {
+                encoding = Encoding.UTF8;
+            }
+            else if ("SJIS".Equals(charCode))
+            {
+                EncodingProvider provider = CodePagesEncodingProvider.Instance;
+                encoding = provider.GetEncoding("shift-jis");
+            }
+            else
+            {
+                throw new ArgumentException(@"文字コードは ""UTF-8"" または ""SJIS"" のいずれかを指定してください。");
+            }
+
             // ファイルのテキストを読み取る
             string fileText = File.ReadAllText(filePath, encoding);
 
@@ -86,5 +101,22 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.Logic
                 return false;
             }
         }
+
+        /**
+         * 引数全体を再セットする処理
+         */
+        public void setArgs(ArgMents argMents) { this.argMents = argMents; }
+        /**
+         * 引数を取得する処理
+         */
+        public ArgMents getArgs() { return this.argMents; }
+        /**
+         * 引数を追加する処理(int型)
+         */
+        public void addArg(KeyValuePair<string, int> arg) { this.argMents.addArg(arg); }
+        /**
+         * 引数を追加する処理(string型)
+         */
+        public void addArg(KeyValuePair<string, string> arg) { this.argMents.addArg(arg); }
     }
 }

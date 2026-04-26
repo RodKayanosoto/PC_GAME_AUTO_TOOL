@@ -12,7 +12,9 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.ControlFlow.Enums
         public enum CFEnum
         {
             If,
-            Loop
+            EndIf,
+            Loop,
+            EndLoop
         }
     }
 }

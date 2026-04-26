@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PC_GAME_AUTO_TOOL.Functions.Macro.Command.InterFace;
+using PC_GAME_AUTO_TOOL.Functions.Macro.ControlFlow.Enums;
 
 /**
  * コマンドの行を表す構造体
  * コマンドの行番号とコマンドの内容を保持する
  */
-namespace PC_GAME_AUTO_TOOL.Functions.Macro.ControlFlow.Schema
+namespace PC_GAME_AUTO_TOOL.Functions.Macro.ControlFlow.Line
 {
-    public struct Line
+    public class CommandLine : LineInterFace
     {
         // コマンドの内容 ※IFやLOOP等の制御フローコマンドの場合はnullとする
         private MacroCommandInterface command;
@@ -27,7 +28,7 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.ControlFlow.Schema
          * @param command コマンドの内容
          * @param lineNumber コマンドの行番号
          */
-        public Line(MacroCommandInterface command, int lineNumber)
+        public CommandLine(MacroCommandInterface command, int lineNumber)
         {
             // コマンドの内容と行番号を初期化
             this.command = command;

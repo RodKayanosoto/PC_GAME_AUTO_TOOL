@@ -1,27 +1,26 @@
-﻿using System;
+﻿using PC_GAME_AUTO_TOOL.Functions.Macro.Command.InterFace;
+using PC_GAME_AUTO_TOOL.Functions.Macro.Logic.Struct;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PC_GAME_AUTO_TOOL.Functions.Macro.Command.InterFace;
 
 namespace PC_GAME_AUTO_TOOL.Functions.Macro.Logic
 {
     public class IsExistsProcess : InterFace.Logic
     {
-        // プロセス名
-        private string processName;
-        // プロセスの配列
-        private Process[] processes;
+        private ArgMents argMents;
 
         /**
          * IsExistsProcessクラスのコンストラクタ
          * 引数には、プロセス名を指定します。
          * 引数の数が不正な場合は、ArgumentExceptionをスローします。
          */
-        public IsExistsProcess(params string[] args)
+        public IsExistsProcess(int lineNum, params string[] args)
         {
+            this.argMents = new ArgMents();
             // 引数の数をチェックする
             if (args.Length == 0)
             {
@@ -53,7 +52,12 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.Logic
                 processName = processName.Substring(0, processName.Length - 4);
             }
 
-            this.processName = processName;
+            this.argMents.addArg(new KeyValuePair<string, string>(lineNum.ToString() + "_processName", processName));
+        }
+
+        public IsExistsProcess(ArgMents arguments)
+        {
+            this.argMents = arguments;
         }
 
         /**
@@ -62,8 +66,26 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.Logic
         public bool execute()
         {
             // プロセスの配列を取得する
-            processes = Process.GetProcessesByName(processName);
+            string processName = this.argMents.stringVariableList[0].Value;
+            Process[] processes = Process.GetProcessesByName(processName);
             return processes.Length > 0;
         }
+
+        /**
+         * 引数全体を再セットする処理
+         */
+        public void setArgs(ArgMents argMents) { this.argMents = argMents; }
+        /**
+         * 引数を取得する処理
+         */
+        public ArgMents getArgs() { return this.argMents; }
+        /**
+         * 引数を追加する処理(int型)
+         */
+        public void addArg(KeyValuePair<string, int> arg) { this.argMents.addArg(arg); }
+        /**
+         * 引数を追加する処理(string型)
+         */
+        public void addArg(KeyValuePair<string, string> arg) { this.argMents.addArg(arg); }
     }
 }

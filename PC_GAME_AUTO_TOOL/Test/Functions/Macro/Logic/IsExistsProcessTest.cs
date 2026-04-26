@@ -45,7 +45,7 @@ namespace Test.Functions.Macro.Logic
 
             // 存在しないプロセス名を指定して、IsExistsProcessを実行する
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsExistsProcess(filePath);
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsExistsProcess(1, filePath);
                 // コマンドを実行する
                 Assert.IsFalse(command.execute());
             }
@@ -58,7 +58,7 @@ namespace Test.Functions.Macro.Logic
 
             // 存在するプロセス名を指定して、IsExistsProcessを実行する
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsExistsProcess(filePath);
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsExistsProcess(1, filePath);
                 // コマンドを実行する
                 Assert.IsTrue(command.execute());
             }
@@ -91,7 +91,7 @@ namespace Test.Functions.Macro.Logic
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsExistsProcess();
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsExistsProcess(1);
             });
 
         }
@@ -105,7 +105,7 @@ namespace Test.Functions.Macro.Logic
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsExistsProcess("arg1", "arg2");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsExistsProcess(1, "arg1", "arg2");
             });
         }
         [TestMethod]
@@ -117,7 +117,7 @@ namespace Test.Functions.Macro.Logic
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsExistsProcess("   ");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsExistsProcess(1, "   ");
             });
         }
     }

@@ -54,7 +54,7 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.MacroForGames.Elona
                 // Elonaのプロセスを終了する
                 {
                     // Elonaのプロセスが存在するか確認する
-                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic isExistsProcess = new IsExistsProcess(elonaExePath);
+                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic isExistsProcess = new IsExistsProcess(1, elonaExePath);
 
                     // Elonaのプロセスが存在する場合は、Elonaのプロセスを終了する
                     if (isExistsProcess.execute())
@@ -66,7 +66,7 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.MacroForGames.Elona
                 // サクラエディタのプロセスを終了する
                 {
                     // サクラエディタのプロセスが存在するか確認する
-                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic isExistsProcess = new IsExistsProcess(sakuraEditorExePath);
+                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic isExistsProcess = new IsExistsProcess(1, sakuraEditorExePath);
 
                     // サクラエディタのプロセスが存在する場合は、サクラエディタのプロセスを終了する
                     if (isExistsProcess.execute())
@@ -181,7 +181,7 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.MacroForGames.Elona
                     // 装備情報ファイルを閉じる(サクラエディタで開かれる)
                     {
                         // サクラエディタのプロセスが存在するか確認する
-                        PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic isExistsProcess = new IsExistsProcess(sakuraEditorExePath);
+                        PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic isExistsProcess = new IsExistsProcess(1, sakuraEditorExePath);
 
                         // サクラエディタのプロセスが存在する場合は、サクラエディタのプロセスを終了する
                         if (isExistsProcess.execute())
@@ -197,7 +197,7 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.MacroForGames.Elona
                 // エンチャント失敗している場合、次の処理へ
                 {
                     // 装備情報ファイルに「銅の瞳」と「それは幻惑への耐性を授ける」が記入されているか確認する
-                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains("SJIS", currentEquipFilePath, "エヘカトルの祝福");
+                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new IsFileTextContains(1, "SJIS", currentEquipFilePath, "エヘカトルの祝福");
 
                     //if (!fileContent.Contains("エヘカトルの祝福") ||
                     //    !fileContent.Contains("それは幻惑への耐性を授ける"))
@@ -206,7 +206,7 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.MacroForGames.Elona
                         // エンチャント失敗している場合は、Elonaのプロセスを終了する
                         {
                             // Elonaのプロセスが存在するか確認する
-                            PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic isExistsProcess = new IsExistsProcess(elonaExePath);
+                            PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic isExistsProcess = new IsExistsProcess(1, elonaExePath);
 
                             // Elonaのプロセスが存在する場合は、Elonaのプロセスを終了する
                             if (isExistsProcess.execute())
@@ -238,7 +238,7 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.MacroForGames.Elona
                         // 1秒待機する
                         new Command.Wait("1000").Execute();
                         // Elonaのプロセスが存在しない場合は、セーブ成功とみなす
-                        PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic isExistsProcess = new IsExistsProcess(elonaExePath);
+                        PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic isExistsProcess = new IsExistsProcess(1, elonaExePath);
                         if (!isExistsProcess.execute())
                         {
                             break;
@@ -249,7 +249,7 @@ namespace PC_GAME_AUTO_TOOL.Functions.Macro.MacroForGames.Elona
                 // Elonaのプロセスが存在する場合は終了する
                 {
                     // Elonaのプロセスが存在するか確認する
-                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic isExistsProcess = new IsExistsProcess(elonaExePath);
+                    PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic isExistsProcess = new IsExistsProcess(1, elonaExePath);
 
                     // Elonaのプロセスが存在する場合は、Elonaのプロセスを終了する
                     if (isExistsProcess.execute())

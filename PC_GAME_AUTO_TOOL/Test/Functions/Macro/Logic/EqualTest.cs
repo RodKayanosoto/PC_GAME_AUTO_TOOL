@@ -21,32 +21,61 @@ namespace Test.Functions.Macro.Logic
         {
             // 値が一致する場合はtrueとなることを確認する
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal("-1", "-1");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal(1, "-1", "-1");
                 Assert.IsTrue(command.execute());
             }
 
             // 値が一致する場合はtrueとなることを確認する
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal("0", "0");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal(1, "0", "0");
                 Assert.IsTrue(command.execute());
             }
 
             // 値が一致する場合はtrueとなることを確認する
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal("1", "1");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal(1, "1", "1");
                 Assert.IsTrue(command.execute());
             }
 
             // 値が一致しない場合はfalseとなることを確認する
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal("1", "0");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal(1, "1", "0");
                 Assert.IsFalse(command.execute());
             }
 
             // 値が一致しない場合はfalseとなることを確認する
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal("0", "1");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal(1, "0", "1");
                 Assert.IsFalse(command.execute());
+            }
+        }
+
+        /**
+         * 引数を変更した場合、正しく動作することを確認する
+         */
+        [TestMethod]
+        public void testLogicArgumentChange()
+        {
+            // 値が一致する場合はtrueとなることを確認する
+            PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal(1, "1", "1");
+            Assert.IsTrue(command.execute());
+
+            // 引数を丸ごと変更する
+            {
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.Struct.ArgMents argMents = new PC_GAME_AUTO_TOOL.Functions.Macro.Logic.Struct.ArgMents();
+                argMents.addArg(new KeyValuePair<string, int>("2_arg1", 3));
+                argMents.addArg(new KeyValuePair<string, int>("2_arg2", 4));
+                command.setArgs(argMents);
+                Assert.IsFalse(command.execute());
+            }
+
+            // 引数の一部を変更する(setArgs)
+            {
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.Struct.ArgMents argMents = command.getArgs();
+                argMents.numericVariableList[0] = new KeyValuePair<string, int>("2_arg1", 4);
+                // ※実はこのsetArgsを呼び出さなくても、argMentsの内容が変更されているため、正しく動作する
+                //command.setArgs(argMents);
+                Assert.IsTrue(command.execute());
             }
         }
 
@@ -59,7 +88,7 @@ namespace Test.Functions.Macro.Logic
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal();
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal(1);
             });
         }
 
@@ -72,7 +101,7 @@ namespace Test.Functions.Macro.Logic
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal("1");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal(1, "1");
             });
         }
 
@@ -85,7 +114,7 @@ namespace Test.Functions.Macro.Logic
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal("1", "2", "3");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal(1, "1", "2", "3");
             });
         }
 
@@ -98,13 +127,13 @@ namespace Test.Functions.Macro.Logic
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal("a", "2");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal(1, "a", "2");
             });
 
             // コンストラクタで例外がスローされることを確認する
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal("1", "b");
+                PC_GAME_AUTO_TOOL.Functions.Macro.Logic.InterFace.Logic command = new Equal(1, "1", "b");
             });
         }
     }
